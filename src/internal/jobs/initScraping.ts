@@ -1,4 +1,3 @@
-import { ErrorWithCause } from "../../common/errors.js";
 import { ScraperRepository } from "../../features/scraper/scraper.repository.js";
 import { ScraperService } from "../../features/scraper/scraper.service.js";
 import { ErrorsUtil } from "../../common/errors.js";
