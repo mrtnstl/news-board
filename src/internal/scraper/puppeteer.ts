@@ -6,8 +6,10 @@ import {
     type PuppeteerOptions,
     type ScrapeField,
 } from "../../types/scraper.types.js";
-import { ErrorWithCause } from "../../common/errors.js";
 import { PAGE_NUMBER_TEMPL } from "../../common/constants.js";
+import { ErrorsUtil } from "../../common/errors.js";
+const { error } = ErrorsUtil;
+const { ScraperError } = error;
 
 const pptr = addExtra(puppeteer);
 pptr.use(StealthPlugin());
@@ -34,13 +36,9 @@ export class PuppeteerScraper<T> implements IScraper<T> {
             this.page = await this.browser.newPage();
             await this.page.setViewport({ width: 1920, height: 1080 });
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                throw new ErrorWithCause("Failed to init browser", err);
-            }
-            throw new ErrorWithCause(
-                "Failed to init browser",
-                new Error(String(err)),
-            );
+            throw new ScraperError("Scraper: Failed to init browser", true, {
+                cause: err instanceof Error ? err : new Error(String(err)),
+            });
         }
     }
     async scrape(): Promise<T[]> {
@@ -135,13 +133,9 @@ export class PuppeteerScraper<T> implements IScraper<T> {
 
             return this.data;
         } catch (err: unknown) {
-            if (err instanceof Error) {
-                throw new ErrorWithCause("Failed to scrape source", err);
-            }
-            throw new ErrorWithCause(
-                "Failed to scrape source",
-                new Error(String(err)),
-            );
+            throw new ScraperError("Scraper: Failed to scrape source", true, {
+                cause: err instanceof Error ? err : new Error(String(err)),
+            });
         }
     }
     async cleanup() {
