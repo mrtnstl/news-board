@@ -1,0 +1,27 @@
+{
+    "scrprType": "puppeteer",
+    "dataType": "news",
+    "scrprOptions": {
+        "url": "https://www.nytimes.com/section/technology",
+        "currentPage": 1,
+        "maxPages": 1,
+        "selectorToWaitFor": ".xXp2rG_stream",
+        "elementsRoot": ".css-14ee9cx",
+        "rawFields": {
+            "title": { "selector": ".css-1l4spti .css-8hzhxf h3" },
+            "imageURL": {
+                "selector": ".css-1l4spti .css-rq4mmj",
+                "attribute": "src"
+            },
+            "publishedAt": {
+                "selector": "div.e15t083i3 span[data-testid=\"todays-date\"]",
+                "fallback": "no_data"
+            },
+            "articleLink": {
+                "selector": ".css-1l4spti a.css-8hzhxf",
+                "attribute": "href"
+            },
+            "summary": { "selector": ".css-1l4spti p.e15t083i1" }
+        }
+    }
+}

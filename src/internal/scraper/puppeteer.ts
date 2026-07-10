@@ -1,28 +1,16 @@
 import puppeteer, { Page } from "puppeteer";
 import { addExtra, type VanillaPuppeteer } from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
-import { type IScraper } from "./scraper.js";
+import {
+    type IScraper,
+    type PuppeteerOptions,
+    type ScrapeField,
+} from "../../types/scraper.types.js";
 import { ErrorWithCause } from "../../common/errors.js";
+import { PAGE_NUMBER_TEMPL } from "../../common/constants.js";
 
 const pptr = addExtra(puppeteer);
 pptr.use(StealthPlugin());
-
-type ScrapeField = {
-    selector: string;
-    attribute?: string;
-    fallback?: string;
-};
-
-type PuppeteerOptions<T> = {
-    url: string;
-    currentPage: number;
-    maxPages: number;
-    selectorToWaitFor?: string;
-    elementsRoot: string;
-    rawFields: Record<Exclude<keyof T, "index">, ScrapeField>;
-};
-
-export const PAGEN_NUMBER_TEMPL = "<%PAGE_NUM%>";
 
 export class PuppeteerScraper<T> implements IScraper<T> {
     private browser:
@@ -71,9 +59,9 @@ export class PuppeteerScraper<T> implements IScraper<T> {
 
             while (this.options.currentPage <= this.options.maxPages) {
                 let url: string;
-                if (this.options.url.includes(PAGEN_NUMBER_TEMPL)) {
+                if (this.options.url.includes(PAGE_NUMBER_TEMPL)) {
                     url = this.options.url.replace(
-                        PAGEN_NUMBER_TEMPL,
+                        PAGE_NUMBER_TEMPL,
                         String(this.options.currentPage),
                     );
                 } else {
