@@ -6,16 +6,15 @@
         "currentPage": 1,
         "maxPages": 1,
         "selectorToWaitFor": ".bc_latest_news #bc-home-news-main-wrap",
-        "elementsRoot": ".bc_latest_news #bc-home-news-main-wrap li",
+        "elementsRoot": ".bc_latest_news #bc-home-news-main-wrap > li",
         "rawFields": {
             "title": { "selector": ".bc_latest_news_text h4 a" },
             "imageURL": {
-                "selector": ".bc_latest_news_img a img",
+                "selector": ".nonexistent_selector",
                 "attribute": "src"
             },
             "publishedAt": {
-                "selector": ".bc_latest_news_text ul .bc_news_date",
-                "fallback": "no_data"
+                "selector": ".bc_latest_news_text ul .bc_news_date"
             },
             "articleLink": {
                 "selector": ".bc_latest_news_text h4 a",

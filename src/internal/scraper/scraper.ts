@@ -1,4 +1,4 @@
-import type { TScraperConfig } from "../../features/scraper/scraper.schemas";
+import type { TScraperConfig } from "../../features/scraper/scraper.schemas.js";
 import { PuppeteerScraper } from "./puppeteer.js";
 
 /**

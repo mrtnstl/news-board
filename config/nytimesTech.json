@@ -14,8 +14,7 @@
                 "attribute": "src"
             },
             "publishedAt": {
-                "selector": "div.e15t083i3 span[data-testid=\"todays-date\"]",
-                "fallback": "no_data"
+                "selector": "div.css-agsgss.e15t083i3 > span[data-testid=todays-date]"
             },
             "articleLink": {
                 "selector": ".css-1l4spti a.css-8hzhxf",

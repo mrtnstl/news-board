@@ -1,11 +1,15 @@
 import { createScraper } from "../../internal/scraper/scraper.js";
-import type { IScraperRepository } from "./scraper.repository.js";
-import { ScraperConfigSchema, type TScraperConfig } from "./scraper.schemas.js";
+import type {
+    IScraperRepository,
+    TMalformedConfig,
+} from "./scraper.repository.js";
+import {
+    NewsScraperConfigSchema,
+    type TScraperConfig,
+} from "./scraper.schemas.js";
 import { ErrorsUtil } from "../../common/errors.js";
 const { error } = ErrorsUtil;
 const { ConfigError, ScraperError } = error;
-
-export type TMalformedConfig = { name: string; malformedConfig: string };
 
 export interface IScraperService {
     getAvailableConfigs(): Promise<string[]>;
@@ -34,9 +38,9 @@ export class ScraperService implements IScraperService {
     async getConfig(name: string) {
         try {
             const config = await this.scraperRepo.getConfig(name);
-            if (typeof config === "string") {
+            if ("malformedConfig" in config) {
                 // handle malformed config
-                return { name: name, malformedConfig: config };
+                return config;
             }
             return config;
         } catch (err) {
@@ -72,7 +76,7 @@ export class ScraperService implements IScraperService {
     async updateConfig(name: string, updatedConfig: TScraperConfig) {
         try {
             const validationResult =
-                ScraperConfigSchema.safeParse(updatedConfig);
+                NewsScraperConfigSchema.safeParse(updatedConfig);
             if (!validationResult.success) {
                 throw validationResult.error;
             }
@@ -101,7 +105,8 @@ export class ScraperService implements IScraperService {
     }
     async createConfig(name: string, newConfig: TScraperConfig) {
         try {
-            const validationResult = ScraperConfigSchema.safeParse(newConfig);
+            const validationResult =
+                NewsScraperConfigSchema.safeParse(newConfig);
             if (!validationResult.success) {
                 throw validationResult.error;
             }

@@ -1,0 +1,31 @@
+{
+    "scrprType": "puppeteer",
+    "dataType": "news",
+    "scrprOptions": {
+        "url": "https://www.theregister.com/tag/developer",
+        "currentPage": 1,
+        "maxPages": 1,
+        "selectorToWaitFor": ".page-content",
+        "elementsRoot": "article[data-site-alias=theregister]",
+        "rawFields": {
+            "title": {
+                "selector": "a[itemprop=url] h2[itemprop=headline].headline"
+            },
+            "imageURL": {
+                "selector": "a[itemprop=url] div.media figure div.img picture source",
+                "attribute": "srcset"
+            },
+            "publishedAt": {
+                "selector": "div.time-comments [itemprop=datePublished]",
+                "attribute": "datetime"
+            },
+            "articleLink": {
+                "selector": "a[itemprop=url]",
+                "attribute": "href"
+            },
+            "summary": {
+                "selector": "a[itemprop=url] p"
+            }
+        }
+    }
+}

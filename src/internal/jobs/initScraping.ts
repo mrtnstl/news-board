@@ -1,4 +1,7 @@
-import { ScraperRepository } from "../../features/scraper/scraper.repository.js";
+import {
+    ScraperRepository,
+    type TMalformedConfig,
+} from "../../features/scraper/scraper.repository.js";
 import { ScraperService } from "../../features/scraper/scraper.service.js";
 import { ErrorsUtil } from "../../common/errors.js";
 const { error } = ErrorsUtil;
@@ -17,7 +20,11 @@ export async function initScraping(results: any[]) {
 
             if ("malformedConfig" in conf) {
                 // TODO: handle malformed config issues
-                console.log(`malformed config (${config})`);
+                console.log(
+                    `malformed config (${(conf as TMalformedConfig).name})
+                    ${(conf as TMalformedConfig).error}
+                    ${(conf as TMalformedConfig).error.cause}`,
+                );
                 continue;
             }
 
