@@ -1,0 +1,28 @@
+{
+    "name": "@news-board/classifier",
+    "version": "1.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "dev": "tsx src/index.ts",
+        "build": "tsc -p tsconfig.json",
+        "test": "jest",
+        "lint": "npx eslint ./src/**/*.ts",
+        "lint:fix": "npx eslint ./src/**/*.ts --fix"
+    },
+    "dependencies": {
+        "@news-board/contracts": "1.0.0",
+        "@news-board/shared": "1.0.0",
+        "amqplib": "^0.10.0",
+        "mongodb": "^6.0.0",
+        "natural": "^8.1.1",
+        "stopword": "^3.1.5"
+    },
+    "devDependencies": {
+        "@types/amqplib": "^0.10.8",
+        "@types/node": "^26.1.0",
+        "@types/stopword": "^2.0.3",
+        "tsx": "^4.19.0",
+        "typescript": "^6.0.3"
+    }
+}

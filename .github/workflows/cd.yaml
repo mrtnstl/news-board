@@ -1,0 +1,17 @@
+name: cd
+
+on:
+    workflow_dispatch:
+        branches: [main]
+        inputs:
+            testInp:
+                description: "Test input for continuous delivery workflow"
+                required: true
+                default: "hello world!"
+
+jobs:
+    printInputs:
+        runs-on: ubuntu-latest
+        steps:
+            - run: |
+                  echo "test input: ${{ github.event.inputs.testInp }}"

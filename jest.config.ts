@@ -11,7 +11,7 @@ const config: Config = {
     coverageDirectory: "coverage",
     coveragePathIgnorePatterns: ["/node_modules/"],
     coverageProvider: "v8",
-    rootDir: "./src/tests/",
+    rootDir: "./",
     testEnvironment: "node",
     testRegex: "(/__tests__/.*|(\\.|/)(test|spec))\\.ts?$",
     preset: "ts-jest/presets/default-esm",

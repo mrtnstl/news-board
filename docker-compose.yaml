@@ -1,0 +1,71 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: news-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: newsdb
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: news-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+
+  api:
+    build:
+      context: .
+      dockerfile: ./services/api/Dockerfile
+    container_name: news-api
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+      MONGO_URI: mongodb://mongo:27017/newsdb
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  scraper:
+    build:
+      context: .
+      dockerfile: ./services/scraper/Dockerfile
+    container_name: news-scraper
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://mongo:27017/newsdb
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - mongo
+      - rabbitmq
+      - api
+
+  classifier:
+    build:
+      context: .
+      dockerfile: ./services/classifier/Dockerfile
+    container_name: news-classifier
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://mongo:27017/newsdb
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+    depends_on:
+      - mongo
+      - rabbitmq
+      - api
+
+volumes:
+  mongo-data:

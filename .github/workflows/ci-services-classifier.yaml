@@ -1,0 +1,36 @@
+name: ci-services-classifier
+
+on:
+    push:
+        branches: [main]
+        paths:
+            - "services/classifier/**"
+    pull_request:
+        branches: [main]
+        paths:
+            - "services/classifier/**"
+
+jobs:
+    ci:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run ESLint
+              run: npm run lint:classifier
+
+            - name: Run Tests
+              run: npm run test:classifier
+
+            - name: Build TypeScript
+              run: npm run build:classifier
