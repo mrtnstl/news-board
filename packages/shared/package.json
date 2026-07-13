@@ -10,7 +10,7 @@
     },
     "scripts": {
         "build": "tsc -p tsconfig.json",
-        "test": "jest",
+        "test": "jest --config ../../jest.config.ts",
         "lint": "npx eslint ./src/**/*.ts",
         "lint:fix": "npx eslint ./src/**/*.ts --fix"
     },
