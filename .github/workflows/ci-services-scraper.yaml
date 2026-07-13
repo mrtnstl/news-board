@@ -26,6 +26,9 @@ jobs:
             - name: Install dependencies
               run: npm ci
 
+            - name: Build shared workspace dependencies
+              run: npm run build:shared && npm run build:contracts
+
             - name: Run ESLint
               run: npm run lint:scraper
 
