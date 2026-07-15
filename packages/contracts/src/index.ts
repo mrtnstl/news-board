@@ -20,3 +20,9 @@ export type ArticleClassifiedEvent = {
 };
 
 export type QueueMessage = ArticleDiscoveredEvent | ArticleClassifiedEvent;
+
+export * from "./dtos/news.dto.js";
+export * from "./dtos/archivedArticle.dto.js";
+export * from "./dtos/dailyStat.dto.js";
+export * from "./dtos/scraperConfig.dto.js";
+export * from "./dtos/scraperLogs.dto.js";
