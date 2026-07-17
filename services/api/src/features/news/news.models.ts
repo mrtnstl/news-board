@@ -8,6 +8,22 @@ type INewsMongoOverwrite = Omit<INews, "scraperConfigId"> & {
     scraperConfigId: Schema.Types.ObjectId;
 };
 
+const summarySubSchema = new Schema(
+    {
+        title: { type: String, required: true },
+        description: { type: String, required: false },
+        imageUrl: { type: String, required: false },
+    },
+    { _id: false },
+);
+const classificationSubSchema = new Schema(
+    {
+        sentimentScore: { type: Number, required: false },
+        readingTimeSeconds: { type: Number, required: false },
+    },
+    { _id: false },
+);
+
 const newsSchema = new Schema<INewsMongoOverwrite>(
     {
         articleId: { type: String, required: true, unique: true },
@@ -22,12 +38,11 @@ const newsSchema = new Schema<INewsMongoOverwrite>(
             required: true,
         },
         error: { type: String, required: false },
-        failedAt: { type: Date, require: false },
+        failedAt: { type: Date, required: false },
         retryCount: { type: Number, required: false },
         summary: {
-            title: { type: String, required: true },
-            description: { type: String, required: false },
-            imageUrl: { type: String, required: false },
+            type: summarySubSchema,
+            required: true,
         },
         scraperConfigId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -40,8 +55,8 @@ const newsSchema = new Schema<INewsMongoOverwrite>(
             },
         },
         classification: {
-            sentimentScore: { type: Number, required: false },
-            readingTimeSeconds: { type: Number, required: false },
+            type: classificationSubSchema,
+            required: true,
         },
         publishedAt: { type: Date, required: false },
         processedAt: { type: Date, required: false },
