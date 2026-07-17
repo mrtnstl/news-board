@@ -1,4 +1,10 @@
-type ScraperLogLevels = "info" | "warn" | "error" | "debug";
+export const ScraperLogLevel = {
+    info: "info",
+    warn: "warn",
+    error: "error",
+    debug: "debug",
+} as const;
+
 export interface IScraperLogs {
     scraperConfigId: string; // ObjectId
     bucketStart: Date;
@@ -6,7 +12,7 @@ export interface IScraperLogs {
     logs: [
         {
             timestamp: Date;
-            level: ScraperLogLevels;
+            level: keyof typeof ScraperLogLevel;
             message: string;
             articleUrl: string;
             durationMs: number;

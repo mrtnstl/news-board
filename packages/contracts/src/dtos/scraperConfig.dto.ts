@@ -1,12 +1,27 @@
-type ScrapedField = {
+export const ScrapedFieldAttribute = {
+    src: "src",
+    srcset: "srcset",
+    href: "href",
+    datetime: "datetime",
+} as const;
+
+export type ScrapedField = {
     selector: string;
-    attribute?: "src" | "srcset" | "href" | "datetime";
+    attribute?: keyof typeof ScrapedFieldAttribute;
     fallback?: string;
 };
 
+export const ScraperType = {
+    puppeteer: "puppeteer",
+    playwright: "playwright",
+} as const;
+export const ScrapedDataType = {
+    news: "news",
+} as const;
+
 type ScraperConfigOptions = {
-    scrprType: "puppeteer" | "playwright";
-    dataType: "news" | "weather";
+    scrprType: keyof typeof ScraperType;
+    dataType: keyof typeof ScrapedDataType;
     scrprOptions: {
         url: string;
         currentPage: number;
