@@ -1,17 +1,18 @@
+import { PriorityQueue, PriorityQueueValue } from "./heap.js";
+
 export type ShutdownHook = (signal: NodeJS.Signals) => Promise<void> | void;
 
 export class ShutdownEventRegistry {
     private static exists: boolean;
-    shutdownHooks = new Set<ShutdownHook>();
+    shutdownHooks = new PriorityQueue<ShutdownHook>();
     constructor() {
         if (ShutdownEventRegistry.exists) {
             return this;
         }
         ShutdownEventRegistry.exists = true;
     }
-    registerShutdownHook(hook: ShutdownHook) {
-        this.shutdownHooks.add(hook);
-        return () => this.shutdownHooks.delete(hook);
+    registerShutdownHook(hook: PriorityQueueValue<ShutdownHook>) {
+        this.shutdownHooks.enqueue(hook);
     }
     grafeculShutdownListener(timeoutMillis: number = 10_000) {
         const run = async (signal: NodeJS.Signals) => {
@@ -23,8 +24,9 @@ export class ShutdownEventRegistry {
                 process.exit(1);
             }, timeoutMillis);
 
-            for (const hook of [...this.shutdownHooks]) {
-                await hook(signal);
+            while (!this.shutdownHooks.isEmpty()) {
+                const hook = this.shutdownHooks.dequeue()!;
+                await hook.value(signal);
             }
 
             clearTimeout(shutdownTimeout);

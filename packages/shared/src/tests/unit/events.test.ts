@@ -5,17 +5,14 @@ describe("ShutdownEventRegistry", () => {
         jest.restoreAllMocks();
     });
 
-    it("registers shutdown hooks and removes them through the cleanup function", () => {
+    it("registers shutdown hooks", () => {
         const registry = new ShutdownEventRegistry();
-        const hook = jest.fn();
+        const hook = { value: jest.fn(), priority: 0 };
 
-        const unregister = registry.registerShutdownHook(hook);
+        registry.registerShutdownHook(hook);
+        const registered = registry.shutdownHooks.dequeue();
 
-        expect(registry.shutdownHooks.has(hook)).toBe(true);
-
-        unregister();
-
-        expect(registry.shutdownHooks.has(hook)).toBe(false);
+        expect(registered).toEqual(hook);
     });
 
     it("registers SIGINT and SIGTERM listeners for graceful shutdown", () => {
