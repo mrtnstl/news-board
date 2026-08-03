@@ -16,7 +16,7 @@ export function isValid(
 }
 
 export function normalize(url: URL): string {
-    let tempURL = new URL(url.href);
+    const tempURL = new URL(url.href);
 
     // force https
     if (tempURL.protocol === "http:") {
