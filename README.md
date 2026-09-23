@@ -6,6 +6,12 @@ A low distraction, personal news feed aggregator with sentiment based classifica
 
 This backend is designed to fetch news periodically via web scraping and classify them in an event-driven manner.
 
+**scraping and classification flow:**
+
+<img src="./docs/scraper_and_classifier_flow.png" width="800">
+
+**high level architecture diagram:**
+
 <img src="./docs/arch.png" width="800">
 
 ### Monorepo service architecture
